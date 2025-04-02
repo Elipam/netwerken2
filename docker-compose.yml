@@ -1,0 +1,22 @@
+services:
+  app:
+    # Bouw de Docker image vanuit de huidige directory
+    build: .
+    # Poort mappings van host naar container
+    ports:
+      - "443:443" # HTTPS poort
+      - "1883:1883" # MQTT poort
+    # Mount de SSL directory naar de container voor certificaten
+    volumes:
+      - ./ssl:/app/ssl
+
+    # Herstart beleid: altijd herstarten tenzij handmatig gestopt
+    restart: unless-stopped
+    # Netwerk configuratie
+    networks:
+      - app-network
+
+# Definieer het Docker netwerk
+networks:
+  app-network:
+    driver: bridge # Standaard bridge netwerk driver
