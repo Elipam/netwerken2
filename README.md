@@ -49,5 +49,5 @@ Zorg ervoor dat je de volgende libraries en dependencies hebt geïnstalleerd:
 
    Open je HTML file in je webbrowser, door https://localhost:443 te bezoeken en voer je naam in. Gebruik een van de volgende inloggegevens voor MQTT authenticatie:
 
-   - Username: "admin", Password: "adminpassword"
-   - Username: "user1", Password: "user1password"
+   - Username: "chatter1", Password: "chatter1password"
+   - Username: "chatter2", Password: "chatter2password"

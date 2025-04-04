@@ -28,48 +28,61 @@ const io = require("socket.io")(server, {
 const mqtt = require("mqtt");
 // Gebruik de eerste gebruiker uit de config voor de verbinding
 const mqttUser = config.mqtt.users[0];
-const mqttClient = mqtt.connect(`mqtt://localhost:${config.mqtt.port}`, {
+const mqttClient = mqtt.connect(`mqtts://${config.mqtt.host}:${config.mqtt.port}`, {
   username: mqttUser.username,
   password: mqttUser.password,
+  rejectUnauthorized: false, // Add this line to accept self-signed certificates
+});
+
+// Zorg ervoor dat de MQTT client zich abonneert op het topic bij verbinding
+mqttClient.on("connect", () => {
+  console.log(`🟢 Verbonden met MQTT broker op ${config.mqtt.host}:${config.mqtt.port}`);
+  mqttClient.subscribe("chat/message");
+  console.log(`📩 Geabonneerd op topic: chat/message`);
+});
+
+mqttClient.on("error", (error) => {
+  console.error(`🔴 MQTT verbindingsfout: ${error.message}`);
+});
+
+mqttClient.on("message", (topic, message) => {
+  const msg = message.toString();
+  console.log(`📬 Bericht ontvangen op topic ${topic}: ${msg}`);
+  io.emit("message", `${msg}`); // Stuur bericht naar alle WebSocket clients
 });
 
 // Handelt WebSocket verbindingen af wanneer clients verbinden
 io.on("connection", (socket) => {
+  console.log(`🔌 Nieuwe client verbonden: ${socket.id}`);
+
   // Vraag om gebruikersnaam en wachtwoord voor authenticatie
   socket.on("authenticate", (credentials) => {
     const { username, password } = credentials;
-    // Zoek de gebruiker in onze MQTT config voor validatie
+    console.log(`🔑 Authenticatie poging: ${username}`);
+
+    // Zoek de gebruiker in MQTT config voor validatie
     const user = config.mqtt.users.find(
       (u) => u.username === username && u.password === password
     );
 
     if (user) {
-      // Authenticatie gelukt
+      console.log(`✅ Authenticatie geslaagd voor: ${username}`);
       socket.emit("authenticated", true);
     } else {
-      // Authenticatie mislukt
+      console.log(`❌ Authenticatie mislukt voor: ${username}`);
       socket.emit("authenticated", false);
     }
   });
 
   // Luister naar berichten van de client en publiceer ze naar MQTT
   socket.on("message", (message) => {
-    mqttClient.publish("eliamMessages", message);
+    mqttClient.publish("chat/message", message);
   });
 });
 
-// Zorg ervoor dat de MQTT client zich abonneert op het topic bij verbinding
-mqttClient.on("connect", () => {
-  mqttClient.subscribe("eliamMessages", (err) => {
-    // Behandel fouten stilzwijgend
-  });
+// Start de HTTPS server op poort 8443
+server.listen(8443, () => {
+  console.log(`🚀 Server draait op https://localhost:8443`);
+  console.log(`🔒 Server is beveiligd met TLS/SSL`);
+  console.log(`🔐 Login vereist met gebruikersnaam en wachtwoord`);
 });
-
-// Luister naar berichten van de MQTT broker en stuur ze naar alle WebSocket clients
-mqttClient.on("message", (topic, message) => {
-  const msg = message.toString();
-  io.emit("message", `${msg}`); // Stuur bericht naar alle WebSocket clients
-});
-
-// Start de HTTPS server op poort 443
-server.listen(443);

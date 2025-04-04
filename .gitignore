@@ -2,3 +2,4 @@
 /ssl/
 .env
 /server/node_modules
+/server/config.js

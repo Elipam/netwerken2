@@ -1,8 +1,8 @@
 // Client-side JavaScript voor de chat applicatie
 
 // Maak verbinding met de Socket.IO server
-const socket = io("https://localhost:443", {
-  rejectUnauthorized: false, // Accepteer zelf-ondertekende certificaten
+const socket = io("https://localhost:8443", {
+  rejectUnauthorized: false,
 });
 
 // DOM elementen ophalen
@@ -16,11 +16,15 @@ let isAuthenticated = false;
 
 // Vraag om inloggegevens wanneer pagina laadt
 window.onload = () => {
-  // Vraag gebruikersnaam en wachtwoord
+  // Vraag gebruiker om inloggegevens
   username = prompt("Voer je gebruikersnaam in:");
   password = prompt("Voer je wachtwoord in:");
 
-  // Probeer te authenticeren
+  // Als gebruiker annuleert, gebruik de standaard waarden
+  username = username || "student";
+  password = password || "welkom01";
+
+  console.log("Bezig met authenticeren...");
   socket.emit("authenticate", { username, password });
 };
 
@@ -28,10 +32,10 @@ window.onload = () => {
 socket.on("authenticated", (result) => {
   if (result) {
     isAuthenticated = true;
-    // Voeg bericht toe dat authenticatie geslaagd is
-    addMessage(`Ingelogd als ${username}`);
+    console.log("Authenticatie succesvol");
+    addMessage(`Beveiligde verbinding. Ingelogd als ${username}`);
   } else {
-    // Toon foutmelding bij mislukte authenticatie
+    console.error("Authenticatie mislukt");
     addMessage(
       "Authenticatie mislukt. Ververs de pagina om opnieuw te proberen."
     );
@@ -59,7 +63,6 @@ function sendMessage() {
   if (message) {
     // Stuur bericht naar server
     socket.emit("message", `${username}: ${message}`);
-    // Maak input veld leeg
     messageInput.value = "";
   }
 }
@@ -74,6 +77,4 @@ function addMessage(message) {
   const li = document.createElement("li");
   li.textContent = message;
   messagesList.appendChild(li);
-  // Scroll naar beneden om nieuwste berichten te tonen
-  window.scrollTo(0, document.body.scrollHeight);
 }
