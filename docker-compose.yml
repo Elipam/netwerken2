@@ -5,7 +5,7 @@ services:
     # Poort mappings van host naar container
     ports:
       - "443:443" # HTTPS poort
-      - "1883:1883" # MQTT poort
+      - "8883:8883" # Secure MQTT poort
     # Mount de SSL directory naar de container voor certificaten
     volumes:
       - ./ssl:/app/ssl

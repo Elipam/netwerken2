@@ -1,12 +1,12 @@
 #ifndef SECRET
-const char ssid[] = "CodeCast";  // Wi-Fi ssid
-const char pass[] = "CoCaWiFi!"; // Wi-Fi wachtwoord
+const char ssid[] = "De Froststreet 74"; // Wi-Fi ssid
+const char pass[] = "Paultje4Life";      // Wi-Fi wachtwoord
 
-const char *MQTT_HOST = "netwerkenbasis.com";
-const int MQTT_PORT = 8883;                 // MQTT-broker poort
-const char *MQTT_CLIENT_ID = "BOT-1003233"; // Vervang 123456 door je leerlingnummer
-const char *MQTT_USER = "student";          // Gebruikersnaam voor de broker
-const char *MQTT_PASS = "welkom01";         // Wachtwoord voor de broker
+const char *MQTT_HOST = "netwerkenbasis.com"; // Correct broker name
+const int MQTT_PORT = 8883;                   // MQTT-broker poort
+const char *MQTT_CLIENT_ID = "BOT-1003233";   // Vervang 123456 door je leerlingnummer
+const char *MQTT_USER = "student";            // Gebruikersnaam voor de broker
+const char *MQTT_PASS = "welkom01";           // Wachtwoord voor de broker
 
 // Dit is het certificaat dat je nodig hebt. Je hoeft hier op deze plek niks mee te doen
 const char *local_root_ca =

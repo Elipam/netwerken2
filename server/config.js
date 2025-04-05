@@ -2,13 +2,13 @@
 module.exports = {
   // MQTT configuratie
   mqtt: {
-    // Nieuwe broker configuratie
+    // Broker configuratie (blijft hetzelfde)
     host: "netwerkenbasis.com",
     port: 8883,
     tls: true,
-    // Nieuwe gebruikersnaam en wachtwoord
-    users: [
-      { username: "student", password: "welkom01" },
-    ],
+    // Broker credentials blijven hetzelfde
+    brokerUser: { username: "student", password: "welkom01" },
+    // Nieuwe app gebruikers authenticatie
+    users: [{ username: "student1003233", password: "pwNetwerken" }],
   },
 };
