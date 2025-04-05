@@ -92,8 +92,8 @@ void callback(char *topic, byte *payload, unsigned int length)
   Serial.print(": ");
   Serial.println(message);
 
-  // Verwerk commando's
-  if (message == "lichtAan")
+  // Verwerk commando's - controleert of het commando ergens in het bericht staat
+  if (message.indexOf("lichtAan") != -1)
   {
     digitalWrite(LED_BUILTIN_PIN, LOW); // LED aan
     Serial.println("LED aangezet");
@@ -101,7 +101,7 @@ void callback(char *topic, byte *payload, unsigned int length)
     String confirmMessage = String(MQTT_CLIENT_ID) + ": LED is aangezet";
     client.publish("chat/message", confirmMessage.c_str());
   }
-  else if (message == "lichtUit")
+  else if (message.indexOf("lichtUit") != -1)
   {
     digitalWrite(LED_BUILTIN_PIN, HIGH); // LED uit
     Serial.println("LED uitgezet");
@@ -109,7 +109,7 @@ void callback(char *topic, byte *payload, unsigned int length)
     String confirmMessage = String(MQTT_CLIENT_ID) + ": LED is uitgezet";
     client.publish("chat/message", confirmMessage.c_str());
   }
-  else if (message == "temp")
+  else if (message.indexOf("temp") != -1)
   {
     float temperature = dht.readTemperature();
     if (isnan(temperature))
@@ -124,7 +124,7 @@ void callback(char *topic, byte *payload, unsigned int length)
       Serial.println(tempMessage);
     }
   }
-  else if (message == "hum")
+  else if (message.indexOf("hum") != -1)
   {
     float humidity = dht.readHumidity();
     if (isnan(humidity))

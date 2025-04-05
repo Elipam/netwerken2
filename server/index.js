@@ -107,7 +107,7 @@ io.on("connection", (socket) => {
     // Only allow message publishing if authenticated
     if (socket.authenticated) {
       // Add client ID to the message
-      const formattedMessage = `${socket.id}: ${message}`;
+      const formattedMessage = `${message}`;
       mqttClient.publish("chat/message", formattedMessage);
     } else {
       console.log(`Ongeautoriseerde message poging: ${socket.id}`);
