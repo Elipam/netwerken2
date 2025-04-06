@@ -22,6 +22,5 @@ EXPOSE 443
 # Expose poort 8883 voor Secure MQTT verkeer
 EXPOSE 8883
 
-# Start both the MQTT server and the HTTPS server
-CMD ["sh", "-c", "node server/index.js & node server/mqtt-server.js"]
-
+# Start the HTTPS server
+CMD ["node", "server/index.js"]

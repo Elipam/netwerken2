@@ -1,3 +1,5 @@
+version: "3"
+
 services:
   app:
     # Bouw de Docker image vanuit de huidige directory
@@ -9,7 +11,6 @@ services:
     # Mount de SSL directory naar de container voor certificaten
     volumes:
       - ./ssl:/app/ssl
-
     # Herstart beleid: altijd herstarten tenzij handmatig gestopt
     restart: unless-stopped
     # Netwerk configuratie

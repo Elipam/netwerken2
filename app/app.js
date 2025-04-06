@@ -1,5 +1,3 @@
-// Client-side JavaScript voor de chat applicatie
-
 // Maak verbinding met de Socket.IO server
 const socket = io("https://localhost:443", {
   rejectUnauthorized: false,
@@ -20,11 +18,6 @@ window.onload = () => {
   username = prompt("Voer je gebruikersnaam in:");
   password = prompt("Voer je wachtwoord in:");
 
-  // Als gebruiker annuleert, gebruik de nieuwe standaard waarden
-  username = username || "student1003233";
-  password = password || "pwNetwerken";
-
-  console.log("Bezig met authenticeren...");
   socket.emit("authenticate", { username, password });
 };
 
@@ -32,10 +25,8 @@ window.onload = () => {
 socket.on("authenticated", (result) => {
   if (result) {
     isAuthenticated = true;
-    console.log("Authenticatie succesvol");
     addMessage(`Beveiligde verbinding. Ingelogd als ${username}`);
   } else {
-    console.error("Authenticatie mislukt");
     addMessage(
       "Authenticatie mislukt. Ververs de pagina om opnieuw te proberen."
     );

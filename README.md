@@ -42,15 +42,51 @@ Zorg ervoor dat je de volgende libraries en dependencies hebt geïnstalleerd:
 
 4. **Start de services met Docker Compose:**
 
+   Zorg ervoor dat Docker en Docker Compose geïnstalleerd zijn op je systeem. Voer dan het volgende commando uit in de hoofdmap van het project:
+
    ```sh
    docker-compose up --build
    ```
 
+   Dit commando zal:
+
+   - De Docker image bouwen volgens de instructies in de Dockerfile
+   - De containers starten zoals gedefinieerd in docker-compose.yml
+   - De HTTPS server (poort 443) en MQTT broker (poort 8883) beschikbaar maken
+
+   Om de applicatie op de achtergrond te draaien, gebruik:
+
+   ```sh
+   docker-compose up -d --build
+   ```
+
+   Om de containers te stoppen:
+
+   ```sh
+   docker-compose down
+   ```
+
 5. **Open de clientapplicatie:**
 
-   Open je HTML file in je webbrowser, door https://localhost:443 te bezoeken en voer je naam in. Gebruik een van de volgende inloggegevens voor MQTT authenticatie:
+   Open je webbrowser en navigeer naar https://localhost:443. Je zult waarschijnlijk een waarschuwing krijgen over een onveilig certificaat (omdat het zelf-ondertekend is). Kies de optie om door te gaan naar de website.
+
+   Voer je naam in en authenticeer met een van de volgende inloggegevens:
 
    - Username: "student", Password: "welkom01"
+
+## Projectstructuur
+
+```
+netwerken2/
+├── app/                  # Client-side web applicatie
+├── server/               # Server-side code
+│   ├── index.js          # HTTPS en WebSocket server
+│   ├── mqtt-server.js    # MQTT broker server
+│   └── config.js         # Configuratie instellingen
+├── ssl/                  # SSL certificaten
+├── Dockerfile            # Instructies voor Docker image
+└── docker-compose.yml    # Docker Compose configuratie
+```
 
 ## Beschikbare Endpoints
 

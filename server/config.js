@@ -9,6 +9,12 @@ module.exports = {
     // Broker credentials blijven hetzelfde
     brokerUser: { username: "student", password: "welkom01" },
     // Nieuwe app gebruikers authenticatie
-    users: [{ username: "student1003233", password: "pwNetwerken" }],
+    users: [
+      { username: "student1003233", password: "pwNetwerken" },
+      {
+        username: "Het bedrijf voor wie je aan het werk bent",
+        password: "ruim 500.000 euro",
+      },
+    ],
   },
 };
